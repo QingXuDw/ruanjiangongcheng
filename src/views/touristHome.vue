@@ -56,9 +56,12 @@
 
                 let userType = window.sessionStorage.getItem('userType');
                 console.log(userType);
-                if (userType == "member")
+                if (userType == "company")
                 {
                     this.$router.push({path: '/memberHome'});
+                }
+                else if(userType == "admin"){
+                    this.$router.push('/adminHome');
                 }
                 else{
                     this.$router.push({path: '/touristHome'});

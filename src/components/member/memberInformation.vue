@@ -1,29 +1,31 @@
 <template>
     <div>
       <el-row :gutter="20" style="margin-top:10px">
-        <el-col :span="24">
-           <div class="grid-content bg-purple">
-              <el-card class="box-card">
-                <div slot="header" class="clearfix">
-                 <span>企业信息</span>
-                </div>
-                <div class="name-role">
-                 <span class="sender">用户名 - {{dataForm.nickName}}</span>
-                </div>
-                <div class="registe-info">
-                 <span class="registe-info">注册时间：<li class="fa fa-clock-0"></li>2020/4/10 9:40:33</span>
-                </div>
-                <el-divider></el-divider>
-                <div class="personal-relation">
-                  <div class="relation-item">企业名称：<div style="float: right; padding-right:20px;">{{dataForm.name}}</div></div>
-                </div>
-                <div class="personal-relation">
-                  <div class="relation-item">信用评级: <div style="float: right; padding-right:20px;">Qingxu</div></div>
-                </div>
-                <el-button type="primary">修改信息</el-button>
-              </el-card>
-           </div>
-        </el-col>
+          <el-col :span="24">
+              <div class="grid-content bg-purple">
+                <el-card class="box-card">
+                  <div slot="header" class="clearfix">
+                   <span>企业信息</span>
+                  </div>
+                  <div class="name-role">
+                   <span class="sender">用户名 - {{dataForm.nickName}}</span>
+                  </div>
+                  <div class="registe-info">
+                   <span class="registe-info">注册时间：<li class="fa fa-clock-0"></li>2020/4/10 9:40:33</span>
+                  </div>
+                  <el-divider></el-divider>
+                  <div class="personal-relation">
+                    <div class="relation-item">企业名称：<div style="float: right; padding-right:20px;">{{dataForm.name}}</div></div>
+                  </div>
+                  <div class="personal-relation">
+                    <div class="relation-item">信用评级: <div style="float: right; padding-right:20px;">Qingxu</div></div>
+                  </div>
+                   <el-button type="primary">修改信息</el-button>
+                </el-card>
+              </div>
+          </el-col>
+       </el-row>
+    </div>
 </template>
 <script>
 export default {

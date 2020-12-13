@@ -20,6 +20,18 @@ import memberHistory from '../components/member/memberHistory.vue'
 import financialProducts from '../components/member/financialProducts.vue'
 import memberInformation from '../components/member/memberInformation.vue'
 
+//admin相关组件
+import adminHome from '../views/adminHome.vue'
+import checkRegister from '../components/admin/checkRegister.vue'
+import adminCompany from '../components/admin/adminCompany.vue'
+import adminInvestment from '../components/admin/adminInvestment.vue'
+import adminLoan from '../components/admin/adminLoan.vue'
+import adminWelcome from '../components/admin/adminWelcome.vue'
+
+//公用组件
+import message from '../components/message.vue'
+import changePassword from '../components/changePassword.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -51,6 +63,20 @@ const routes = [
       {path: '/memberHistory', component: memberHistory},
       {path: '/financialProducts', component: financialProducts},
       {path: '/memberInformation', component: memberInformation}
+    ]
+  },
+  {
+    path: '/adminHome',
+    component: adminHome,
+    redirect:'/adminWelcome',
+    children:[
+      {path: '/checkRegister', component: checkRegister},
+      {path: '/adminCompany', component: adminCompany},
+      {path: '/adminInvestment', component: adminInvestment},
+      {path: '/adminLoan', component: adminLoan},
+      {path: '/message', component: message},
+      {path: '/changePassword', component: changePassword},
+      {path: '/adminWelcome', component: adminWelcome},
     ]
   }
 ]
