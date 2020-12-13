@@ -1,31 +1,47 @@
 <template>
-    <div>
-        <el-carousel indicator-position="outside">
-           <el-carousel-item v-for="item in 4" :key="item">
-              <h3>{{item}}</h3>
-           </el-carousel-item>
-        </el-carousel>
-    </div>
+  <div>
+    <div id="main" style="width: 1000px; height: 1000px"></div>
+  </div>
 </template>
 
-<script>
+<script type="text/javascript">
 export default {
-    
-}
+  data() {
+    return {
+      option: {
+        title: {
+          text: "销售量",
+        },
+        tooltip: {},
+        lengend: {
+          data: ["销量"],
+        },
+        xAxis: {
+          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
+        },
+        yAxis: {},
+        series: [
+          {
+            name: "销量",
+            type: "bar",
+            data: [5, 20, 36, 10, 10, 20],
+          },
+        ],
+      },
+    };
+  },
+  mounted() {
+    this.drawLine();
+    console.log("here");
+  },
+  methods: {
+    drawLine: function () {
+        var echarts = require('echarts');   
+      let main = echarts.init(document.getElementById("main"));
+      main.setOption(this.option);
+    },
+  },
+  
+};
 </script>
 
-<style scoped>
-    .el-carousel_item h3{
-        color: #475669;
-        font-size: 18px;
-        opacity: 0.75;
-        line-height: 300px;
-        margin: 0;
-    }
-    .el-carousel_item:nth-child(2n){
-        background-color: #99a9bf;
-    }
-    .el-carousel_item:nth-child(2n+1){
-        background-color: #d3dce6;
-    }
-</style>

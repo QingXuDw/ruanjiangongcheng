@@ -13,7 +13,7 @@ import register from '../components/tourist/register.vue'
 //member相关组件
 import memberHome from '../views/memberHome.vue'
 import memberWelcome from '../components/member/memberWelcome.vue'
-import memberTransaction from '../components/member/memberTransaction.vue'
+import memberNotice from '../components/member/memberNotice.vue'
 import memberBorrow from '../components/member/memberBorrow.vue'
 import memberchange from '../components/member/memberchange.vue'
 import memberHistory from '../components/member/memberHistory.vue'
@@ -57,7 +57,7 @@ const routes = [
     redirect:'/memberWelcome',
     children:[
       {path: '/memberWelcome', component: memberWelcome},
-      {path: '/memberTransaction', component: memberTransaction},
+      {path: '/memberNotice', component: memberNotice},
       {path: '/memberBorrow', component: memberBorrow},
       {path: '/memberchange', component: memberchange},
       {path: '/memberHistory', component: memberHistory},

@@ -9,14 +9,10 @@
         <p>企业名称</p>
         <el-input placeholder="请输入内容" v-model="form.name">
         </el-input>
-    </div>
-    <div>
-      <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
         <el-button @click="onCancel">放弃</el-button>
-      </el-form-item>
     </div>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -34,7 +30,7 @@ export default {
     },
     onCancel() {
       this.$message({
-        message: '放弃借款成功!',
+        message: '取消修改成功!',
         type: 'warning'
       })
     }
@@ -51,6 +47,6 @@ export default {
     min-height: 36px;
 }
 .demo-input-suffix{
-    background:#545454;
+    background:#cfb53b;
 }
 </style>
