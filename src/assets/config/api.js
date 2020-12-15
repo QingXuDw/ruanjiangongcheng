@@ -4,6 +4,7 @@ module.exports = {
     //user related
     login: RootUrl + "user/login",
     getMessage: RootUrl + "user/getMessageListByTitle",
+    changePassword: RootUrl + "user/changePassword",
 
     //member related
     memberGetCompanyInfo: RootUrl + "company/getCompanyInfo",

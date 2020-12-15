@@ -51,7 +51,7 @@
         </el-col>
       </el-row>
 
-      <!-- 社团列表 -->
+      <!-- 公司列表 -->
       <el-table :data="companyList">
         <el-table-column type="index"></el-table-column>
         <el-table-column label="公司名称" prop="companyName"></el-table-column>
@@ -215,6 +215,7 @@ export default {
           return;
         });
       this.getCompanyList(0, this.query);
+      this.print(response);
     },
     jumpToUrl(index) {
       var url = this.companyList[index].website;
@@ -232,9 +233,6 @@ export default {
       this.childProp.companyInfo = response.data;
       this.childProp.id = this.companyList[index].companyId;
       this.$refs["child"].showDetailDialog();
-    },
-    print(something) {
-      console.log(something);
     },
   },
 };

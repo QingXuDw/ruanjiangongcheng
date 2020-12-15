@@ -12,7 +12,9 @@
       <el-col class="col-height" v-if="showLoan" :span="1">
         <el-divider class="col-height" direction="vertical"></el-divider>
       </el-col>
-      <el-col class="col-height" v-if="showLoan" :span="loanSpan"> </el-col>
+      <el-col class="col-height" v-if="showLoan" :span="loanSpan"> 
+        <loan-list-table v-bind:loan="loan" ref="loan"></loan-list-table>
+      </el-col>
     </el-row>
 
     <span slot="footer">
@@ -52,8 +54,9 @@
 
 <script>
 import companyInfoForm from './companyInfoForm.vue'
+import LoanListTable from './loanListTable.vue';
 export default {
-  components: { companyInfoForm },
+  components: { companyInfoForm, LoanListTable },
   data() {
     return {
       //详情对话框显示状态
@@ -62,6 +65,10 @@ export default {
       dialogWidth: "60%",
       showLoan: false,
       loanSpan: 0,
+      loan: {
+        loanList: [],
+      },
+      totalCount: 0,
     };
   },
   props: {
@@ -70,7 +77,7 @@ export default {
   },
   computed: {
     status_name: function () {
-      return this.statusToStr(this.companyInfo.status);
+      return this.companyStatusToStr(this.companyInfo.status);
     },
   },
   created() {},
@@ -116,7 +123,35 @@ export default {
       }
       this.switchShowLoan();
     },
-    async getLoanList() {},
+    async getLoanList() {
+      let response = await this.$axios
+        .post(this.$api.adminGetLoanListByCompanyIdNum, {
+          page_num: 0,
+          page_size: 10,
+          companyId: this.id,
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
+      this.totalCount = response.data;
+      response = await this.$axios
+        .post(this.$api.adminGetLoanListByCompanyId, {
+          page_num: 0,
+          page_size: this.totalCount,
+          companyId: this.id,
+        });
+      this.loan.loanList = response.data;
+      var level_temp;
+      this.loan.loanList.forEach((value, index, list) => {
+        level_temp = value.riskLevel / 20;
+        if(level_temp > 5){level_temp = 5}
+        else if (level_temp < 0){level_temp = 0}
+        list[index].riskLevel = level_temp;
+        list[index].status_name = this.loanStatusToStr(value.status);
+        list[index].rate = `${value.rate / 10}%`;
+      });
+    },
     switchShowLoan() {
       if (this.showLoan) {
         this.showLoan = false;
@@ -131,7 +166,7 @@ export default {
       }
     },
     //输出status的文字描述
-    statusToStr(status_int) {
+    companyStatusToStr(status_int) {
       switch (status_int) {
         case 0:
           return "待审核";
@@ -141,6 +176,29 @@ export default {
           break;
         case 2:
           return "未通过";
+          break;
+        default:
+          return "未定义";
+          break;
+      }
+    },
+    //输出status的文字描述
+    loanStatusToStr(status_int) {
+      switch (status_int) {
+        case 0:
+          return "待审核";
+          break;
+        case 1:
+          return "正在进行";
+          break;
+        case 2:
+          return "已完成";
+          break;
+        case 3:
+          return "未通过";
+          break;
+        case 4:
+          return "已逾期";
           break;
         default:
           return "未定义";
@@ -159,6 +217,6 @@ img {
   max-height: 100%;
 }
 .col-height {
-  height: 1100px;
+  height: 1000px;
 }
 </style>
