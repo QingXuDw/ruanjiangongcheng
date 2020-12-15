@@ -26,5 +26,5 @@ module.exports = {
     
     companycreateLoan: RootUrl + "company/createLoan",
     companyChangeCompanyInfo: RootUrl + "company/changeCompanyInfo",
-    companyRegister: RootUrl + "user/register",
+    userRegister: RootUrl + "user/register",
 }
