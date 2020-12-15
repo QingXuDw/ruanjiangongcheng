@@ -42,11 +42,11 @@ const routes = [
   {
     path: '/touristHome',
     component: touristHome,
-    redirect: '/touristWelcome',
+    redirect: '/login',
     children:[
       {path: '/login', component: login},
       {path: '/touristApply', component: touristApply},
-      {path: '/touristWelcome', component: touristWelcome},
+      {path: '/touristWelcome', component: login},
       {path: '/register', component: register}
     ]
 

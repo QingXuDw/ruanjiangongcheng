@@ -99,7 +99,6 @@ export default {
       });
       //发送登入请求
       var loginData = await this.loginRequest();
-      console.log(loginData);
       if(loginData == null) { return; }
       
       window.sessionStorage.setItem("login", "true");
@@ -113,7 +112,7 @@ export default {
       if(loginData.data.companyName == null){
         loginData.data.companyName = "null";
       }
-      console.log(loginData.data.companyName);
+      this.$print(loginData.data.companyName);
       window.sessionStorage.setItem("name", loginData.data.companyName);
       window.sessionStorage.setItem("imgUrl", "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3531671336,3780835954&fm=26&gp=0.jpg");
       if(loginData.data.userType == "company"){
