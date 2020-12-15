@@ -1,60 +1,49 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="企业名称">
-        <el-input v-model="form.name" />
+    <el-form
+      ref="form"
+      :model="loanform"
+      label-width="120px"
+      :rules="loanformRules"
+    >
+      <el-form-item label="借款数额">
+        <el-input v-model="loanform.amount"></el-input>
       </el-form-item>
-      <el-form-item label="企业类别">
-        <el-select v-model="form.region" placeholder="请选择你的企业类别">
-          <el-option label="有限责任公司" value="shanghai" />
-          <el-option label="股份有限公司" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="企业借款时间">
-        <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%;" />
-        </el-col>
-        <el-col :span="2" class="line">-</el-col>
-        <el-col :span="11">
-          <el-time-picker v-model="form.date2" type="fixed-time" placeholder="Pick a time" style="width: 100%;" />
-        </el-col>
+      <el-form-item label="抵押资产">
+        <el-input v-model="loanform.asset"></el-input>
       </el-form-item>
       <el-form-item label="预计还款时间">
-        <el-col :span="11">
-          <el-date-picker v-model="form.date3" type="date" placeholder="Pick a date" style="width: 100%;" />
-        </el-col>
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery" />
-      </el-form-item>
-      <el-form-item label="抵押资产类型">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="不动产抵押" name="type" />
-          <el-checkbox label="动产抵押" name="type" />
-          <el-checkbox label="权力抵押" name="type" />
-          <el-checkbox label="财团抵押" name="type" />
-          <el-checkbox label="共同抵押" name="type" />
-          <el-checkbox label="最高额抵押" name="type" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="抵押资产具体说明">
-        <el-input v-model="form.desc1" type="textarea" />
+        <el-input v-model="loanform.repayTime"></el-input>
       </el-form-item>
       <el-form-item label="担保人信息描述">
-        <el-input v-model="form.desc2" type="textarea" />
+        <el-input v-model="loanform.guarantee" type="textarea"></el-input>
       </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
-        </el-radio-group>
+      <el-form-item label="利率">
+        <el-input v-model="loanform.rate"></el-input>
       </el-form-item>
-      <el-form-item label="借款原因描述">
-        <el-input v-model="form.desc3" type="textarea" />
+      <el-form-item label="担保人信息">
+        <el-upload
+           drag
+           action=""
+           multiple>
+           <i class="el-icon-upload"></i>
+           <div class="el-upload_text">将文件拖到此处，或<em>点击上传</em></div>
+           <div class="el-upload_tip" slot="tip">只能上传不超过200MB的文件</div>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="抵押资产信息">
+        <el-upload
+           drag
+           action=""
+           multiple>
+           <i class="el-icon-upload"></i>
+           <div class="el-uoload_text">将文件拖到此处，或<em>点击上传</em></div>
+           <div class="el-upload_tip" slot="tip">只能上传不超过200MB的文件</div>
+        </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
-        <el-button @click="onCancel">放弃</el-button>
+        <el-button type="primary" @click="onSubmit()">提交</el-button>
+        <el-button @click="onCancel()">放弃</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -64,37 +53,59 @@
 export default {
   data() {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        date3: '',
-        delivery: false,
-        type: [],
-        desc1: '',
-        desc2: '',
-        resource: '',
-        desc3: ''
-      }
-    }
+      loanform: {
+        amount: 0,
+        asset: "",
+        guarantee: "",
+        repayTime: 0,
+        rate: 0,
+      },
+      show: true,
+      loanformRules: {
+        amount: [
+          { required: true, message: "请输入借款数量", trigger: "blur" },
+        ],
+        asset: [
+          { required: true, message: "请输入公司总资产", trigger: "blur" },
+        ],
+        repayTime: [
+          { required: true, message: "请选择还款日期", trigger: "blur" },
+        ],
+        guarantee: [
+          { required: true, message: "请输入担保人信息", trigger: "blur" },
+        ],
+        rate: [{ required: true, message: "请输入利率", trigger: "blur" }],
+      },
+    };
   },
   methods: {
-    onSubmit() {
-      this.$message('提交成功，等待审核!')
+    async onSubmit() {
+      this.$message("提交成功，等待审核!");
+      let response = await this.$axios
+        .post(this.$api.companycreateLoan, {
+          amount: this.loanform.amount,
+          asset: this.loanform.asset,
+          guaratee: this.loanform.guaratee,
+          repayTime: this.loanform.repayTime,
+          rate: this.loanform.rate*100,
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
     },
-    onCancel() {
+    async onCancel() {
       this.$message({
-        message: '放弃借款成功!',
-        type: 'warning'
-      })
-    }
-  }
-}
+        message: "放弃借款成功!",
+        type: "warning",
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
-.line{
+.line {
   text-align: center;
 }
 </style>

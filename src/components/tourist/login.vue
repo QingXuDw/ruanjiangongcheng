@@ -32,7 +32,7 @@
           <el-button
             type="primary"
             style="width: 100%; background: #505458; border: none"
-            v-on:click="login"
+            v-on:click="login()"
             >登录
           </el-button>
         </el-form-item>
