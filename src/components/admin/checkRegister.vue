@@ -37,25 +37,23 @@
         <el-table-column label="公司名称" prop="companyName"></el-table-column>
         <el-table-column label="公司网址" prop="website">
           <template slot-scope="scope">
-            <el-button type="primary" @click="jumpToUrl(scope.$index)">
+            <el-button
+              v-if="scope.row.website != null"
+              type="text"
+              @click="jumpToUrl(scope.$index)"
+            >
               公司官网
             </el-button>
           </template>
         </el-table-column>
         <el-table-column label="联系电话" prop="phone"></el-table-column>
-        <el-table-column label="详情">
-          <template slot-scope="scope">
-            <el-button type="primary" @click="showDetailDialog(scope.$index)">
-              查看详情
-            </el-button>
-          </template>
-        </el-table-column>
         <el-table-column label="审核">
           <template slot-scope="scope">
             <el-button
               type="success"
               @click="approve(scope.$index)"
               icon="el-icon-check"
+              plain
               circle
             >
             </el-button>
@@ -63,8 +61,16 @@
               type="danger"
               @click="reject(scope.$index)"
               icon="el-icon-close"
+              plain
               circle
             >
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="公司详情">
+          <template slot-scope="scope">
+            <el-button type="primary" @click="showDetailDialog(scope.$index)">
+              查看详情
             </el-button>
           </template>
         </el-table-column>
@@ -82,8 +88,8 @@
       >
       </el-pagination>
     </el-card>
-    <admin-company-detail 
-      v-bind="childProp" 
+    <admin-company-detail
+      v-bind="childProp"
       ref="child"
       @fresh="this.showDetailDialog()"
     ></admin-company-detail>
@@ -108,8 +114,8 @@ export default {
       totalCount: 0,
       childProp: {
         id: "",
-        detailForm: {},
-      }
+        companyInfo: {},
+      },
     };
   },
 
@@ -146,66 +152,70 @@ export default {
       }
     },
     async getCompanyList(status, query) {
-      let response = await this.$axios.post(
-        this.$api.adminGetCompanyList,
-        {
+      let response = await this.$axios
+        .post(this.$api.adminGetCompanyList, {
           condition: query,
           page_num: this.pageNumber - 1,
           page_size: this.pageSize,
-          status: 0
-        }
-      )
-      .catch((error)=>{
-        this.$message.error(error.msg);
-        return;
-      });
+          status: 0,
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
       console.log(response);
       this.companyList = response.data;
+      response = await this.$axios
+        .post(this.$api.adminGetCompanyListNum, {
+          condition: query,
+          page_num: this.pageNumber - 1,
+          page_size: this.pageSize,
+          status: status,
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
+      this.totalCount = response.data;
     },
     async approve(index) {
-      let response = await this.$axios.post(
-        this.$api.adminApproveCompany,
-        {
+      let response = await this.$axios
+        .post(this.$api.adminApproveCompany, {
           Id: this.companyList[index].companyId,
-        }
-      )
-      .catch((error)=>{
-        this.$message.error(error.msg);
-        return;
-      });
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
       this.getCompanyList(0, this.query);
     },
     async reject(index) {
-      let response = await this.$axios.post(
-        this.$api.adminRejectCompany,
-        {
+      let response = await this.$axios
+        .post(this.$api.adminRejectCompany, {
           Id: this.companyList[index].companyId,
-        }
-      )
-      .catch((error)=>{
-        this.$message.error(error.msg);
-        return;
-      });
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
       this.getCompanyList(0, this.query);
     },
-    jumpToUrl(index){
+    jumpToUrl(index) {
       var url = this.companyList[index].website;
       window.open(url);
     },
-    async showDetailDialog(index){
-      let response = await this.$axios.post(
-        this.$api.adminGetCompanyInfo,
-        {
+    async showDetailDialog(index) {
+      let response = await this.$axios
+        .post(this.$api.adminGetCompanyInfo, {
           Id: this.companyList[index].companyId,
-        }
-      )
-      .catch((error)=>{
-        this.$message.error(error.msg);
-        return;
-      });
-      this.childProp.detailForm = response.data;
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
+      this.childProp.companyInfo = response.data;
       this.childProp.id = this.companyList[index].companyId;
-      this.$refs['child'].showDetailDialog();
+      this.$refs["child"].showDetailDialog();
     },
   },
 };
