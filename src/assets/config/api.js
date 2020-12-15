@@ -24,6 +24,7 @@ module.exports = {
     adminGetCompanyListNum: RootUrl + "admin/getCompanyListNum",
     
     
+    //company related
     companycreateLoan: RootUrl + "company/createLoan",
     companyChangeCompanyInfo: RootUrl + "company/changeCompanyInfo",
     companyRegister: RootUrl + "user/register",
