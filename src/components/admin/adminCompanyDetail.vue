@@ -1,97 +1,30 @@
 <template>
-  <el-dialog title="公司详情" :visible.sync="visible" width="60%" center>
-    <el-form :model="this.detailForm" label-width="150px">
-      <el-form-item label="公司名称:">
-        <el-input
-          v-model="this.detailForm.companyName"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="地址:">
-        <el-input
-          v-model="this.detailForm.address"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="资产报告:">
-        <div v-html="this.detailForm.asset">{{this.detailForm.asset}}</div>
-      </el-form-item>
-      <el-form-item label="信用等级:">
-        <el-input
-          v-model="this.detailForm.creditRate"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="信用积分:">
-        <el-input
-          v-model="this.detailForm.creditScore"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="开户银行:">
-        <el-input
-          v-model="this.detailForm.depositBank"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="开户银行卡号:">
-        <el-input
-          v-model="this.detailForm.depositBankCardNumber"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="公司描述:"> 
-        <div v-html="this.detailForm.description">{{this.detailForm.description}}</div>
-      </el-form-item>
-      <el-form-item label="电邮地址:">
-        <el-input
-          v-model="this.detailForm.email"
-          style="width: 82%"
-          readonly
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="电话:">
-        <el-input
-          v-model="this.detailForm.phone"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="logo:">
-        <div>
-          <img :src="this.detailForm.logo"/>
-        </div>
-      </el-form-item>
-      <el-form-item label="在职人数:">
-        <el-input
-          v-model="this.detailForm.memberNumber"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="状态:">
-        <el-input
-          v-model="status_name"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
+  <el-dialog
+    title="公司详情"
+    :visible.sync="visible"
+    :width="dialogWidth"
+    center
+  >
+    <el-row class="col-height" type="flex" justify="center">
+      <el-col :span="infoSpan">
+        <company-info-form :detail="companyInfo" ref="info"></company-info-form>
+      </el-col>
+      <el-col class="col-height" v-if="showLoan" :span="1">
+        <el-divider class="col-height" direction="vertical"></el-divider>
+      </el-col>
+      <el-col class="col-height" v-if="showLoan" :span="loanSpan"> </el-col>
+    </el-row>
+
+    <span slot="footer">
       <!-- 取消按钮 -->
-      <el-button @click="closeDetailDialog()">取 消</el-button>
+      <el-button @click="closeDetailDialog()">返 回</el-button>
       <!-- 通过按钮 -->
       <el-button
         v-if="this.status_name == '待审核'"
         type="success"
         @click="approve()"
         icon="el-icon-check"
+        plain
         circle
       >
       </el-button>
@@ -101,28 +34,43 @@
         type="danger"
         @click="reject()"
         icon="el-icon-close"
+        plain
         circle
       >
+      </el-button>
+      <!-- 借贷记录按钮 -->
+      <el-button
+        v-if="this.status_name == '已通过'"
+        type="primary"
+        @click="switchLoanDiv()"
+      >
+        借贷记录
       </el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
+import companyInfoForm from './companyInfoForm.vue'
 export default {
+  components: { companyInfoForm },
   data() {
     return {
       //详情对话框显示状态
       visible: false,
+      infoSpan: 20,
+      dialogWidth: "60%",
+      showLoan: false,
+      loanSpan: 0,
     };
   },
   props: {
     id: "",
-    detailForm: {},
+    companyInfo: {},
   },
   computed: {
-    status_name: function(){
-      return this.statusToStr(this.detailForm.status);
+    status_name: function () {
+      return this.statusToStr(this.companyInfo.status);
     },
   },
   created() {},
@@ -138,30 +86,49 @@ export default {
       this.visible = false;
     },
     async approve() {
-      let response = await this.$axios.post(
-        this.$api.adminApproveCompany,
-        {
+      let response = await this.$axios
+        .post(this.$api.adminApproveCompany, {
           Id: this.id,
-        }
-      )
-      .catch((error)=>{
-        this.$message.error(error.msg);
-        return;
-      });
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
       this.getCompanyDetail();
     },
     async reject() {
-      let response = await this.$axios.post(
-        this.$api.adminRejectCompany,
-        {
+      let response = await this.$axios
+        .post(this.$api.adminRejectCompany, {
           Id: this.id,
-        }
-      )
-      .catch((error)=>{
-        this.$message.error(error.msg);
-        return;
-      });
+        })
+        .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
       this.getCompanyDetail();
+    },
+    async switchLoanDiv() {
+      if (!this.showLoan) {
+        let result = this.getLoanList();
+        if (result == null) {
+          return;
+        }
+      }
+      this.switchShowLoan();
+    },
+    async getLoanList() {},
+    switchShowLoan() {
+      if (this.showLoan) {
+        this.showLoan = false;
+        this.loanSpan = 0;
+        this.infoSpan = 20;
+        this.dialogWidth = "60%";
+      } else {
+        this.showLoan = true;
+        this.loanSpan = 11;
+        this.infoSpan = 11;
+        this.dialogWidth = "95%";
+      }
     },
     //输出status的文字描述
     statusToStr(status_int) {
@@ -185,4 +152,13 @@ export default {
 </script>
 
 <style scoped>
+img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+.col-height {
+  height: 1100px;
+}
 </style>
