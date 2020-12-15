@@ -19,6 +19,7 @@ import memberchange from '../components/member/memberchange.vue'
 import memberHistory from '../components/member/memberHistory.vue'
 import financialProducts from '../components/member/financialProducts.vue'
 import memberInformation from '../components/member/memberInformation.vue'
+import memberCreate from '../components/member/memberCreate.vue'
 
 //admin相关组件
 import adminHome from '../views/adminHome.vue'
@@ -62,7 +63,8 @@ const routes = [
       {path: '/memberchange', component: memberchange},
       {path: '/memberHistory', component: memberHistory},
       {path: '/financialProducts', component: financialProducts},
-      {path: '/memberInformation', component: memberInformation}
+      {path: '/memberInformation', component: memberInformation},
+      {path: '/memberCreate', component: memberCreate},
     ]
   },
   {

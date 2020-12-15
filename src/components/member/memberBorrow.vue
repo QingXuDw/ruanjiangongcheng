@@ -21,6 +21,12 @@
       <el-form-item label="利率">
         <el-input v-model="loanform.rate"></el-input>
       </el-form-item>
+       <el-form-item>
+        <el-popconfirm title="请完善担保人信息和抵押资产信息">
+        <el-button type="primary" slot="reference" @click="onSubmit()">提交</el-button>
+        </el-popconfirm>
+        <el-button @click="onCancel()">放弃</el-button>
+      </el-form-item>
       <el-form-item label="担保人信息">
         <el-upload
            drag
@@ -40,10 +46,6 @@
            <div class="el-uoload_text">将文件拖到此处，或<em>点击上传</em></div>
            <div class="el-upload_tip" slot="tip">只能上传不超过200MB的文件</div>
         </el-upload>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit()">提交</el-button>
-        <el-button @click="onCancel()">放弃</el-button>
       </el-form-item>
     </el-form>
   </div>

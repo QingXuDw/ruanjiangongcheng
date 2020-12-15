@@ -11,6 +11,12 @@
       >
         <h3 class="change_title">注册</h3>
 
+        <el-form-item prop="text">
+          <el-input
+            v-model="registerForm.username"
+            placeholder="用户名"
+          ></el-input>
+        </el-form-item>
         <el-form-item prop="password">
           <el-input
             type="password"
@@ -26,12 +32,6 @@
             v-model="registerForm.checkPass"
             auto-complete="off"
             placeholder="确认密码"
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="text">
-          <el-input
-            v-model="registerForm.username"
-            placeholder="用户名"
           ></el-input>
         </el-form-item>
         <el-form-item style="width: 100%">
@@ -55,14 +55,14 @@ export default {
         password: "",
         checkPass: "",
       },
-      show:true,
+      show: true,
       registerFormRules: {
         username: [
           { required: true, message: "请输入您的名称", trigger: "blur" },
           { min: 3, max: 20, message: "长度在3到20个字符", trigger: "blur" },
         ],
         password: [
-          { required: true, message:"请输入您的密码", trigger: "blur" },
+          { required: true, message: "请输入您的密码", trigger: "blur" },
           {
             min: 6,
             max: 50,
@@ -71,7 +71,7 @@ export default {
           },
         ],
         checkPass: [
-          { required: true, message:"请确认您的密码", trigger: "blur" },
+          { required: true, message: "请确认您的密码", trigger: "blur" },
           {
             min: 6,
             max: 50,
@@ -82,7 +82,7 @@ export default {
       },
     };
   },
- methods: {
+  methods: {
     async submitForm() {
       //校验表单是否合理
       this.$refs.registerFormRef.validate(async (valid) => {
@@ -95,17 +95,13 @@ export default {
         return;
       }
       //发送请求
-      let response = await this.$axios.post(
-        this.$api.userRegister,
-        {
-          username: this.registerForm.username,
-          password: this.$md5(this.registerForm.password),
-        }
-      )
-      if(response.data.state == false){
+      let response = await this.$axios.post(this.$api.userRegister, {
+        username: this.registerForm.username,
+        password: this.$md5(this.registerForm.password),
+      });
+      if (response.data.state == false) {
         this.$message.error(response.data.msg);
-      }
-      else{
+      } else {
         this.$message.success(response.data.msg);
         window.sessionStorage.clear();
         this.$router.push("/login");
@@ -124,9 +120,9 @@ export default {
 
 body {
   color: rgba(255, 255, 255, 0.65);
-  background-color: hsl(0, 0%, 100%);
-  /* background-image: url(../assets/img/star-bg.svg),
-    linear-gradient(#191c20, #24292e 15%); */
+  background-color: #24292e;
+  background-image: url(../../assets/img/star-bg.svg),
+    linear-gradient(#191c20, #24292e 15%);
   background-repeat: repeat-x;
   background-position: center 0, 0 0, 0 0;
 }
@@ -134,10 +130,10 @@ body {
 .change-container {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: 150px 140px;
+  margin: 150px auto;
   width: 300px;
   padding: 35px 35px 15px 35px;
-  background: rgb(253, 253, 253);
+  background: #fff;
   border: 1px solid #eaeaea;
 }
 

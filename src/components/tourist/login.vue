@@ -122,7 +122,7 @@ export default {
         await this.$router.push({ path: "/adminHome" });
       }
       else{
-        await this.$router.push({ path: "/unaudited" });
+        await this.$router.push({ path: "/memberCreate" });
       }
     },
     async loginRequest() {

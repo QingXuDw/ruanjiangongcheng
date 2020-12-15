@@ -8,6 +8,11 @@ module.exports = {
 
     //member related
     memberGetCompanyInfo: RootUrl + "company/getCompanyInfo",
+    companyGetHistoryByStatus: RootUrl + "company/getLoanListByStatus",
+    companyGetLoanInfo: RootUrl + "company/getLoanById",
+    companyCreatecompany: RootUrl + "company/createCompany",
+    companyGetHistoryByStatusNum: RootUrl + "company/getLoanListByStatusNum",
+
     
     //admin related
     adminGetCompanyList: RootUrl + "admin/getCompanyListByStatusAndName",

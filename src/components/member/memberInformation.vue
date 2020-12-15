@@ -7,7 +7,7 @@
             <div slot="header" class="clearfix">
               <span>企业信息</span>
             </div>
-             <el-divider></el-divider>
+            <el-divider></el-divider>
             <div class="name-role">
               <span class="sender">企业地址: {{ dataForm.address }}</span>
             </div>
@@ -77,8 +77,8 @@ export default {
         address: "",
         asset: "",
         companyName: "",
-        credit_rate: "",
-        credit_scope: "",
+        credit_rate: 0,
+        credit_scope: 0,
         depositBank: "",
         description: "",
         email: "",
@@ -93,6 +93,26 @@ export default {
     async changeInfo() {
       await this.$router.push({ path: "/memberchange" });
     },
+    async getInfo(){
+      let response=await this.$axios .post(this.$api.companyGetInfo,{
+        address:response.address,
+        asset:response.asset,
+        companyName:response.companyName,
+        credit_rate:response.credit_rate,
+        credit_scope:response.credit_scope,
+        depositBank:response.depositBank,
+        description:response.description,
+        email:response.email,
+        logo:response.logo,
+        memberNumber:response.menberNumber,
+        phone:response.phone,
+        website:response.website,
+      })
+      .catch((error) => {
+          this.$message.error(error.msg);
+          return;
+        });
+    }
   },
 };
 </script>
