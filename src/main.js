@@ -46,16 +46,7 @@ axios.interceptors.request.use((config) => {
 //响应拦截器 发送请求前,会发送一个token
 axios.interceptors.response.use((config) => {
   print(config);
-  if(config.data.code == undefined || config.data.code == null){
-    return config;
-  }
-  else if(config.data.code == 500){
-    this.$message.error("长时间未操作，请重新登录");
-    window.sessionStorage.clear();
-    this.$router.push("/login");
-  }
   return config;
-  
 }, (error) => {
   //当响应异常时
   let isTimeout = error.toString().includes('timeout')
