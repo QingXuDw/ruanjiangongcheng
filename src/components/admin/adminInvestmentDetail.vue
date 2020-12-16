@@ -1,91 +1,49 @@
 <template>
   <el-dialog
-    title="公司详情"
-    :visible.sync="detailDialogVisible"
-    width="60%"
+    title="理财产品详情"
+    :visible="true"
+    :width="dialogWidth"
+    @close="forceClose()"
     center
   >
-    <el-form :model="this.detailForm" label-width="150px">
-      <el-form-item label="社团名称:">
+    <el-form :model="detail_n" label-width="150px">
+      <el-form-item label="产品名称:">
         <el-input
-          v-model="this.detailForm.clubName"
-          readonly
+          v-model="detail_n.productName"
           style="width: 82%"
         ></el-input>
       </el-form-item>
-      <el-form-item label="赞助商:">
+      <el-form-item label="产品日息:">
         <el-input
-          v-model="this.detailForm.sponsor"
-          readonly
+          v-model="detail_n.dailyRate"
           style="width: 82%"
         ></el-input>
       </el-form-item>
-      <el-form-item label="赞助金额:">
+      <el-form-item label="产品描述:">
+        <quill-editor
+          ref="myTextEditor"
+          v-model="detail_n.description"
+          :options="editorOption"
+          style="height: 400px"
+        ></quill-editor>
+      </el-form-item>
+      <el-form-item style="margin: 120px 0" label="起投资金:">
         <el-input
-          v-model="this.detailForm.amount"
-          readonly
+          v-model="detail_n.initialFund"
           style="width: 82%"
         ></el-input>
-      </el-form-item>
-      <el-form-item label="提交时间:">
-        <el-date-picker
-          type="date"
-          v-model="this.detailForm.applyDate"
-          style="width: 82%"
-          readonly
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="审核状态:">
-        <el-input
-          v-model="this.detailForm.status_name"
-          readonly
-          style="width: 82%"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="赞助商需求:">
-        <el-input
-          v-model="detailForm.requirement"
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 8 }"
-          readonly
-          style="width: 82%"
-        >
-        </el-input>
-      </el-form-item>
-      <el-form-item label="建议:">
-        <el-input
-          v-model="detailForm.suggestion"
-          type="textarea"
-          style="width: 82%"
-          :autosize="{ minRows: 3, maxRows: 10 }"
-          palceholder="请在此处输入您对这项赞助的建议"
-          maxlength="2000"
-          show-word-limit
-        >
-        </el-input>
       </el-form-item>
     </el-form>
-    <span slot="footer" class="dialog-footer">
+
+    <span slot="footer">
       <!-- 取消按钮 -->
-      <el-button @click="closeReplyDialog()">取 消</el-button>
-      <!-- 通过按钮 -->
-      <el-button
-        v-if="replyForm.status_name == '待审核'"
-        type="success"
-        @click="updateStatusAndRefresh(replyForm.sponsorshipId, 1, 1)"
-        icon="el-icon-check"
-        circle
-      >
+      <el-button @click="closeDetailDialog()">返 回</el-button>
+      <!-- 发布按钮 -->
+      <el-button v-if="this.id == ''" type="primary" @click="publish()">
+        发布
       </el-button>
-      <!-- 拒绝按钮 -->
-      <el-button
-        v-if="replyForm.status_name == '待审核'"
-        type="danger"
-        @click="updateStatusAndRefresh(replyForm.sponsorshipId, 2, 1)"
-        icon="el-icon-close"
-        circle
-      >
-      </el-button>
+      <!-- 修改按钮 -->
+      <el-button v-else type="primary" @click="change()"> 修改 </el-button>
     </span>
   </el-dialog>
 </template>
@@ -94,25 +52,64 @@
 export default {
   data() {
     return {
-      detailForm: {},
       //详情对话框显示状态
-      detailDialogVisible: false,
+      visible: false,
+      dialogWidth: "80%",
+      detail_n: {},
+      editorOption: {
+        placeholder: "编辑内容",
+      },
     };
   },
-
+  props: {
+    id: "",
+    investmentInfo: {},
+  },
+  computed: {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.detail_n = this.investmentInfo;
+  },
   methods: {
-    getCompanyDetail(id) {
-      console.log(id);
+    showDetailDialog() {
     },
-    showDetailDialog(index) {},
-    closeDetailDialog(index) {},
-    approve(){},
-    reject(){},
+    closeDetailDialog() {
+      this.$emit('close');
+    },
+    forceClose(){
+      this.$emit('close');
+    },
+    async publish() {
+      let response = await this.$axios.post(
+        this.$api.adminCreateProduct,
+        {
+          dailyRate: this.detail_n.dailyRate,
+          description: this.detail_n.description,
+          initialFund: this.detail_n.initialFund,
+          productName: this.detail_n.productName,
+        }
+      )
+      this.closeDetailDialog();
+    },
+    async change() {
+      let response = await this.$axios.post(
+        this.$api.adminChangeProduct,
+        this.detail_n
+      )
+      this.closeDetailDialog();
+    },
   },
 };
 </script>
 
 <style scoped>
+img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+.col-height {
+  height: 1000px;
+}
 </style>

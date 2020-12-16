@@ -159,11 +159,6 @@ export default {
           page_size: this.pageSize,
           status: 0,
         })
-        .catch((error) => {
-          this.$message.error(error.msg);
-          return;
-        });
-      console.log(response);
       this.companyList = response.data;
       response = await this.$axios
         .post(this.$api.adminGetCompanyListNum, {
