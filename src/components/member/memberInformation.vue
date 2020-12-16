@@ -1,170 +1,135 @@
 <template>
   <div>
-    <el-row :gutter="20" style="margin-top: 10px">
-      <el-col :span="24">
-        <div class="grid-content bg-purple">
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span>企业信息</span>
-            </div>
-            <el-divider></el-divider>
-            <div class="name-role">
-              <span class="sender">企业地址: {{ dataForm.address }}</span>
-            </div>
-            <div class="registe-info">
-              <span class="registe-info">企业资产:{{ dataForm.asset }}</span>
-            </div>
-            <div class="personal-relation">
-              <div class="relation-item">
-                企业名称：
-                <div style="float: right; padding-right: 20px">
-                  {{ dataForm.companyName }}
-                </div>
-              </div>
-            </div>
-            <div class="personal-relation">
-              <div class="relation-item">
-                信用率:
-                <div style="float: right; padding-right: 20px">
-                  {{ dataForm.credit_rate }}
-                </div>
-              </div>
-            </div>
-            <div>
-              <span class="relation-item"
-                >信用积分:{{ dataForm.credit_score }}</span
-              >
-            </div>
-            <div>
-              <span class="relation-item"
-                >开户银行:{ dataForm.depositBank }}</span
-              >
-            </div>
-            <div>
-              <span class="relation-item"
-                >企业简介:{{ dataForm.description }}</span
-              >
-            </div>
-            <div>
-              <span class="relation-item">企业邮箱:{{ dataForm.email }}</span>
-            </div>
-            <div>
-              <span class="relation-item">企业图标:{{ dataForm.logo }}</span>
-            </div>
-            <div>
-              <span class="relation-item"
-                >用户编号:{{ dataForm.memberNumber }}</span
-              >
-            </div>
-            <div>
-              <span class="relation-item">公司电话:{{ dataForm.phone }}</span>
-            </div>
-            <div>
-              <span class="relation-item">公司网址:{{ dataForm.website }}</span>
-            </div>
-            <el-button type="primary" @click="changeInfo()">修改信息</el-button>
-          </el-card>
-        </div>
-      </el-col>
-    </el-row>
+    <h3>公司信息</h3>
+    <el-form class="col-height" :model="this.detail" label-width="150px">
+      <el-form-item label="公司名称:">
+        <el-input
+          v-model="this.detail.companyName"
+          readonly
+          style="width: 82%"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="地址:">
+        <el-input
+          v-model="this.detail.address"
+          readonly
+          style="width: 82%"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="资产报告:">
+        <quill-view-pop :content="this.detail.asset"></quill-view-pop>
+      </el-form-item>
+      <el-form-item label="信用等级:">
+        <el-rate
+          v-model="this.detail.credit_rate"
+          :disabled="this.disableRate"
+          show-score
+          text-color="#ff9900"
+          score-template="{value}"
+        >
+        </el-rate>
+      </el-form-item>
+      <el-form-item label="信用积分:">
+        <el-input
+          v-model="this.detail.creditScore"
+          readonly
+          style="width: 82%"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="开户银行:">
+        <el-input
+          v-model="this.detail.depositBank"
+          readonly
+          style="width: 82%"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="开户银行卡号:">
+        <el-input
+          v-model="this.detail.depositBankCardNumber"
+          readonly
+          style="width: 82%"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="公司描述:">
+        <memberquill-view-pop :content="this.detail.description"></memberquill-view-pop>
+      </el-form-item>
+      <el-form-item label="电邮地址:">
+        <el-input
+          v-model="this.detail.email"
+          style="width: 82%"
+          readonly
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="电话:">
+        <el-input
+          v-model="this.detail.phone"
+          readonly
+          style="width: 82%"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="logo:">
+        <el-avatar
+          shape="square"
+          :size="200"
+          fit="cover"
+          :src="this.detail.logo"
+        ></el-avatar>
+      </el-form-item>
+      <el-form-item label="在职人数:">
+        <el-input
+          v-model="this.detail.memberNumber"
+          readonly
+          style="width: 82%"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="公司网址">
+        <el-input
+          v-model="this.detail.website"
+          readonly
+          style="width: 82%"
+        ></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="changeInfo()">修改信息</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 <script>
+import quillViewPop from "./memberquillViewPop.vue";
 export default {
+  components: { quillViewPop },
   data() {
-    return {
-      dataForm: {
-        address: "",
-        asset: "",
-        companyName: "",
-        credit_rate: 0,
-        credit_scope: 0,
-        depositBank: "",
-        description: "",
-        email: "",
-        logo: "",
-        memberNumber: 0,
-        phone: "",
-        website: "",
-      },
-    };
+    return {};
   },
+  props: {
+    id: "",
+    detail: {},
+  },
+  create() {},
   methods: {
-    async changeInfo() {
-      await this.$router.push({ path: "/memberchange" });
-    },
-    async getInfo(){
-      let response=await this.$axios .post(this.$api.companyGetInfo,{
-        address:response.address,
-        asset:response.asset,
-        companyName:response.companyName,
-        credit_rate:response.credit_rate,
-        credit_scope:response.credit_scope,
-        depositBank:response.depositBank,
-        description:response.description,
-        email:response.email,
-        logo:response.logo,
-        memberNumber:response.menberNumber,
-        phone:response.phone,
-        website:response.website,
-      })
-      .catch((error) => {
+    async getmemberInfo() {
+      let response = await this.$axios
+        .post(this.$api.memberGetCompanyInfo, {
+          Id: this.id,
+        })
+        .catch((error) => {
           this.$message.error(error.msg);
           return;
         });
-    }
+      this.detail = response.data;
+    },
+    async changeInfo() {
+      await this.$router.push({ path: "/memberchange" }).catch((err) => {});
+    },
   },
 };
 </script>
-<style lang="scss" scoped>
-//卡片样式
-.box-card {
-  width: 100%;
+<style scoped>
+img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-//文本样式区
-.name-role {
-  font-size: 16px;
-  padding: 5px;
-  text-align: center;
-}
-.registe-info {
-  text-align: center;
-  padding-top: 10px;
-}
-.personal-relation {
-  font-size: 16px;
-  padding: 0px 5px 15px;
-  margin-right: 1px;
-  width: 100%;
-}
-.relation-item {
-  padding: 12px;
-}
-.sender {
-  text-align: center;
-}
-//布局样式区
-.el-row {
-  margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-.el-col {
-  border-radius: 4px;
-}
-.bg-purple {
-  background: #d3dce6;
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 36px;
-}
+</style>

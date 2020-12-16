@@ -12,6 +12,7 @@ module.exports = {
     companyGetLoanInfo: RootUrl + "company/getLoanById",
     companyCreatecompany: RootUrl + "company/createCompany",
     companyGetHistoryByStatusNum: RootUrl + "company/getLoanListByStatusNum",
+    
 
     
     //admin related
