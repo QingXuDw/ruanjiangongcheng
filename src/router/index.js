@@ -20,7 +20,6 @@ import memberHistory from '../components/member/memberHistory.vue'
 import financialProducts from '../components/member/financialProducts.vue'
 import memberInformation from '../components/member/memberInformation.vue'
 import memberCreate from '../components/member/memberCreate.vue'
-import productheld from '../components/member/productheld'
 
 //admin相关组件
 import adminHome from '../views/adminHome.vue'
@@ -49,7 +48,7 @@ const routes = [
       {path: '/login', component: login},
       {path: '/touristApply', component: touristApply},
       {path: '/touristWelcome', component: login},
-      {path: '/register', component: register},
+      {path: '/register', component: register}
     ]
 
   },
@@ -66,7 +65,6 @@ const routes = [
       {path: '/financialProducts', component: financialProducts},
       {path: '/memberInformation', component: memberInformation},
       {path: '/memberCreate', component: memberCreate},
-      {path: '/productheld', component: productheld},
     ]
   },
   {
