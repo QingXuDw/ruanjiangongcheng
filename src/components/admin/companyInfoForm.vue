@@ -20,14 +20,37 @@
         <quill-view-pop :content="this.detail.asset"></quill-view-pop>
       </el-form-item>
       <el-form-item label="信用等级:">
-        <el-rate
-          v-model="this.detail.credit_rate"
-          :disabled="this.disableRate"
-          show-score
-          text-color="#ff9900"
-          score-template="{value}"
+        <el-popover
+          placement="top"
+          width="100"
+          trigger="click"
+          v-model="showRate"
         >
-        </el-rate>
+          <div style="margin: auto">
+            <el-rate
+              v-model="credit_rate"
+              show-score
+              allow-half
+              text-color="#ff9900"
+              score-template="{value}"
+            >
+            </el-rate>
+            <!-- 提交按钮 -->
+            <el-button
+              style="margin: auto"
+              @click="rateCompany()"
+              icon="el-icon-upload2"
+              type="text"
+            >
+              提交
+            </el-button>
+          </div>
+
+          <!-- 评分按钮 -->
+          <el-button slot="reference" icon="el-icon-s-data" plain>
+            修改信用等级</el-button
+          >
+        </el-popover>
       </el-form-item>
       <el-form-item label="信用积分:">
         <el-input
@@ -93,7 +116,10 @@ import quillViewPop from "./quillViewPop.vue";
 export default {
   components: { quillViewPop },
   data() {
-    return {};
+    return {
+      showRate: false,
+      credit_rate: 0,
+    };
   },
   props: {
     detail: {},
@@ -119,6 +145,12 @@ export default {
           return "未定义";
           break;
       }
+    },
+    async rateCompany() {
+      let response = await this.$axios.post(this.$api.adminRateCompany, {
+        creditRate: this.credit_rate * 20,
+        id: this.detail.companyId,
+      });
     },
   },
 };
