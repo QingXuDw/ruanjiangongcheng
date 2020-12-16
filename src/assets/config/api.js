@@ -18,6 +18,7 @@ module.exports = {
     //admin related
     adminGetCompanyList: RootUrl + "admin/getCompanyListByStatusAndName",
     adminGetCompanyInfo: RootUrl + "admin/getCompanyInfoById",
+    adminRateCompany: RootUrl + "admin/scoreCompany",
     adminApproveCompany: RootUrl + "admin/passCompany",
     adminRejectCompany: RootUrl + "admin/deleteCompany",
     adminGetLoanListByStatus: RootUrl + "admin/getLoanListByStatus",
@@ -28,8 +29,13 @@ module.exports = {
     adminApproveLoan: RootUrl + "admin/passLoan",
     adminRejectLoan: RootUrl + "admin/refuseLoan",
     adminGetCompanyListNum: RootUrl + "admin/getCompanyListNum",
+    adminGetInvestmentList: RootUrl + "admin/getProductList",
+    adminGetInvestmentInfo: RootUrl + "admin/getProductById",
+    adminCreateProduct: RootUrl + "admin/createProduct",
+    adminChangeProduct: RootUrl + "admin/changeProductById",
+
     
-    
+    //company related
     companycreateLoan: RootUrl + "company/createLoan",
     companyChangeCompanyInfo: RootUrl + "company/changeCompanyInfo",
     userRegister: RootUrl + "user/register",
