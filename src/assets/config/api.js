@@ -1,4 +1,4 @@
-const RootUrl = 'http://lp.gateway.qingxu.website:20086/'
+const RootUrl = 'http://lptest.gateway.qingxu.website:20086/'
 
 module.exports = {
     //user related
@@ -12,6 +12,12 @@ module.exports = {
     companyGetLoanInfo: RootUrl + "company/getLoanById",
     companyCreatecompany: RootUrl + "company/createCompany",
     companyGetHistoryByStatusNum: RootUrl + "company/getLoanListByStatusNum",
+    companybuyproduct: RootUrl + "company/buyProduct",
+    companyGetProductList: RootUrl + "company/getProductList",
+    companyGetProductListNum: RootUrl + "company/getProductListNum",
+    companyGetProductById: RootUrl + "company/getProductById",
+    companyGetBuyProductList: RootUrl + "company/getBuyProductList",
+    companyGetBuyProductNum: RootUrl + "company/getBuyProductListNum",
     
 
     
