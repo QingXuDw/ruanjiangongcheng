@@ -167,12 +167,13 @@ export default {
     async getCompanyList(status, query) {
       this.status = status;
       let response = await this.$axios
-        .post(this.$api.adminGetCompanyList, {
+        .get(this.$api.adminGetCompanyList, {
+          params:{
           condition: query,
           page_num: this.pageNumber - 1,
           page_size: this.pageSize,
           status: status,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;
@@ -182,12 +183,12 @@ export default {
         list[index].credit_rate = value.credit_rate / 20;
       });
       response = await this.$axios
-        .post(this.$api.adminGetCompanyListNum, {
+        .get(this.$api.adminGetCompanyListNum, {params:{
           condition: query,
           page_num: this.pageNumber - 1,
           page_size: this.pageSize,
           status: status,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;
@@ -196,7 +197,7 @@ export default {
     },
     async approve(index) {
       let response = await this.$axios
-        .post(this.$api.adminApproveCompany, {
+        .put(this.$api.adminApproveCompany, {
           Id: this.companyList[index].companyId,
         })
         .catch((error) => {
@@ -207,7 +208,7 @@ export default {
     },
     async reject(index) {
       let response = await this.$axios
-        .post(this.$api.adminRejectCompany, {
+        .put(this.$api.adminRejectCompany, {
           Id: this.companyList[index].companyId,
         })
         .catch((error) => {
@@ -223,9 +224,9 @@ export default {
     },
     async showDetailDialog(index) {
       let response = await this.$axios
-        .post(this.$api.adminGetCompanyInfo, {
+        .get(this.$api.adminGetCompanyInfo, {params:{
           Id: this.companyList[index].companyId,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;

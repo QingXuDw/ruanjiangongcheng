@@ -47,15 +47,15 @@ export default {
   methods: {
     async getMessageList(query) {
       this.query = query;
-      let response = await this.$axios.post(this.$api.getMessage, {
+      let response = await this.$axios.get(this.$api.getMessage, {params:{
         page_num: 0,
         page_size: 100,
         title: this.query,
-      });
+      }});
       this.messageList = response.data;
       this.messageList.forEach((object, index, list)=>{
         list[index].showDetail = false;
-      })
+      });
     },
     switchShowDetail(index){
       this.messageList[index].showDetail = !this.messageList[index].showDetail;

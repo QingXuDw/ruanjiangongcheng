@@ -119,7 +119,7 @@ export default {
     },
     async approve() {
       let response = await this.$axios
-        .post(this.$api.adminApproveLoan, {
+        .put(this.$api.adminApproveLoan, {
           Id: this.id,
         })
         .catch((error) => {
@@ -129,7 +129,7 @@ export default {
     },
     async reject() {
       let response = await this.$axios
-        .post(this.$api.adminRejectLoan, {
+        .put(this.$api.adminRejectLoan, {
           id: this.id,
           suggestion: this.suggestion,
         })
@@ -151,9 +151,9 @@ export default {
     },
     async getCompanyInfo() {
       let response = await this.$axios
-        .post(this.$api.adminGetCompanyInfo, {
+        .get(this.$api.adminGetCompanyInfo, {params:{
           Id: this.loanInfo.companyId,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;

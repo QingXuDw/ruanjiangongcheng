@@ -1,8 +1,7 @@
 <template>
   <el-popover placement="top" width="600" trigger="hover" v-model="visible">
     <div style="text-align: right; margin: 0">
-      <div v-html="test"></div>
-      <div v-html="content">
+      <div style="overflow:hidden" v-html="content">
       </div>
     </div>
     <el-button slot="reference">查看详情</el-button>

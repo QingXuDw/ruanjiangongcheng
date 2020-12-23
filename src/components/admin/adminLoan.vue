@@ -18,7 +18,7 @@
         <el-col :span="1" class="center">
           <el-button type="text" disabled>状态：</el-button>
         </el-col>
-        <el-col :span="12" style="margin-left: 10px">
+        <el-col :span="16" style="margin-left: 10px">
           <el-button-group>
             <el-button type="primary" plain @click="getLoanList(-1)"
               >全部</el-button
@@ -27,10 +27,16 @@
               >待审核</el-button
             >
             <el-button type="primary" plain @click="getLoanList(1)"
-              >已通过</el-button
+              >正在进行</el-button
             >
             <el-button type="primary" plain @click="getLoanList(2)"
+              >已完成</el-button
+            >
+            <el-button type="primary" plain @click="getLoanList(3)"
               >未通过</el-button
+            >
+            <el-button type="primary" plain @click="getLoanList(4)"
+              >已逾期</el-button
             >
           </el-button-group>
         </el-col>
@@ -178,16 +184,23 @@ export default {
       this.getLoanList(this.status);
     },
     //输出status的文字描述
-    statusToStr(status_int) {
+    //输出status的文字描述
+    loanStatusToStr(status_int) {
       switch (status_int) {
         case 0:
           return "待审核";
           break;
         case 1:
-          return "已通过";
+          return "正在进行";
           break;
         case 2:
+          return "已完成";
+          break;
+        case 3:
           return "未通过";
+          break;
+        case 4:
+          return "已逾期";
           break;
         default:
           return "未定义";
@@ -197,11 +210,11 @@ export default {
     async getLoanList(status) {
       this.status = status;
       let response = await this.$axios
-        .post(this.$api.adminGetLoanListByStatus, {
+        .get(this.$api.adminGetLoanListByStatus, {params:{
           page_num: this.pageNumber - 1,
           page_size: this.pageSize,
           status: status,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;
@@ -216,16 +229,16 @@ export default {
           level_temp = 0;
         }
         list[index].riskLevel = level_temp;
-        list[index].status_name = this.statusToStr(value.status);
+        list[index].status_name = this.loanStatusToStr(value.status);
         list[index].rate = `${value.rate / 100}%`;
         list[index].showRejectPop = false;
       });
       response = await this.$axios
-        .post(this.$api.adminGetLoanListByStatusNum, {
+        .get(this.$api.adminGetLoanListByStatusNum, {params:{
           page_num: this.pageNumber - 1,
           page_size: this.pageSize,
           status: status,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;
@@ -234,7 +247,7 @@ export default {
     },
     async approve(index) {
       let response = await this.$axios
-        .post(this.$api.adminApproveLoan, {
+        .put(this.$api.adminApproveLoan, {
           Id: this.loanList[index].loanId,
         })
         .catch((error) => {
@@ -245,7 +258,7 @@ export default {
     },
     async reject(index) {
       let response = await this.$axios
-        .post(this.$api.adminRejectLoan, {
+        .put(this.$api.adminRejectLoan, {
           id: this.loanList[index].loanId,
           suggestion: this.loanList[index].suggestion,
         })
@@ -261,9 +274,9 @@ export default {
     },
     async showDetailDialog(index) {
       let response = await this.$axios
-        .post(this.$api.adminGetLoanInfo, {
+        .get(this.$api.adminGetLoanInfo, {params:{
           Id: this.loanList[index].loanId,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;

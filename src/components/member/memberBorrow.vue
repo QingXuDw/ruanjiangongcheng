@@ -27,26 +27,6 @@
         </el-popconfirm>
         <el-button @click="onCancel()">放弃</el-button>
       </el-form-item>
-      <el-form-item label="担保人信息">
-        <el-upload
-           drag
-           action=""
-           multiple>
-           <i class="el-icon-upload"></i>
-           <div class="el-upload_text">将文件拖到此处，或<em>点击上传</em></div>
-           <div class="el-upload_tip" slot="tip">只能上传不超过200MB的文件</div>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="抵押资产信息">
-        <el-upload
-           drag
-           action=""
-           multiple>
-           <i class="el-icon-upload"></i>
-           <div class="el-uoload_text">将文件拖到此处，或<em>点击上传</em></div>
-           <div class="el-upload_tip" slot="tip">只能上传不超过200MB的文件</div>
-        </el-upload>
-      </el-form-item>
     </el-form>
   </div>
 </template>

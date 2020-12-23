@@ -3,34 +3,39 @@ const RootUrl = 'http://lp.gateway.qingxu.website:20086/'
 module.exports = {
     //user related
     login: RootUrl + "user/login",
-    getMessage: RootUrl + "user/getMessageListByTitle",
-    changePassword: RootUrl + "user/changePassword",
+    getMessage: RootUrl + "user/messageListByTitle",
+    changePassword: RootUrl + "user/password",
+    userRegister: RootUrl + "user/register",
 
     //member related
-    memberGetCompanyInfo: RootUrl + "company/getCompanyInfo",
-    companyGetHistoryByStatus: RootUrl + "company/getLoanListByStatus",
-    companyGetLoanInfo: RootUrl + "company/getLoanById",
-    companyCreatecompany: RootUrl + "company/createCompany",
-    companyGetHistoryByStatusNum: RootUrl + "company/getLoanListByStatusNum",
+    memberGetCompanyInfo: RootUrl + "company/companyInfo",
+    companyGetHistoryByStatus: RootUrl + "company/loanListByStatus",
+    companyGetLoanInfo: RootUrl + "company/loanById",
+    companyCreatecompany: RootUrl + "company/company",
+    companyGetHistoryByStatusNum: RootUrl + "company/loanListByStatusNum",
+    companycreateLoan: RootUrl + "company/loan",
+    companyChangeCompanyInfo: RootUrl + "company/companyInfo",
     
 
     
     //admin related
-    adminGetCompanyList: RootUrl + "admin/getCompanyListByStatusAndName",
-    adminGetCompanyInfo: RootUrl + "admin/getCompanyInfoById",
-    adminApproveCompany: RootUrl + "admin/passCompany",
-    adminRejectCompany: RootUrl + "admin/deleteCompany",
-    adminGetLoanListByStatus: RootUrl + "admin/getLoanListByStatus",
-    adminGetLoanListByStatusNum: RootUrl + "admin/getLoanListByStatusNum",
-    adminGetLoanListByCompanyId: RootUrl + "admin/getLoanListByCompanyId",
-    adminGetLoanListByCompanyIdNum: RootUrl + "admin/getLoanListByCompanyIdNum",
-    adminGetLoanInfo: RootUrl + "admin/getLoanInfoByLoanId",
-    adminApproveLoan: RootUrl + "admin/passLoan",
-    adminRejectLoan: RootUrl + "admin/refuseLoan",
-    adminGetCompanyListNum: RootUrl + "admin/getCompanyListNum",
-    
-    
-    companycreateLoan: RootUrl + "company/createLoan",
-    companyChangeCompanyInfo: RootUrl + "company/changeCompanyInfo",
-    userRegister: RootUrl + "user/register",
+    adminGetCompanyList: RootUrl + "admin/companyListByStatusAndName",
+    adminGetCompanyInfo: RootUrl + "admin/companyInfoById",
+    adminApproveCompany: RootUrl + "admin/companyPass",
+    adminRejectCompany: RootUrl + "admin/companyFailure",
+    adminGetLoanListByStatus: RootUrl + "admin/loanListByStatus",
+    adminGetLoanListByStatusNum: RootUrl + "admin/loanListByStatusNum",
+    adminGetLoanListByCompanyId: RootUrl + "admin/loanListByCompanyId",
+    adminGetLoanListByCompanyIdNum: RootUrl + "admin/loanListByCompanyIdNum",
+    adminGetLoanInfo: RootUrl + "admin/loanInfoByLoanId",
+    adminApproveLoan: RootUrl + "admin/loanPass",
+    adminRejectLoan: RootUrl + "admin/loanFailure",
+    adminGetCompanyListNum: RootUrl + "admin/companyListNum",
+    adminGetInvestmentList: RootUrl + "admin/productList",
+    adminGetInvestmentListNum: RootUrl + "admin/productListNum",
+    adminGetInvestmentInfo: RootUrl + "admin/productById",
+    adminCreateProduct: RootUrl + "admin/product",
+    adminChangeProduct: RootUrl + "admin/productById",
+    adminRateCompany: RootUrl + "admin/companyScore",
 }
+

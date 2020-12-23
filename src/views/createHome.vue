@@ -23,11 +23,6 @@
               @click.native="changePassword"
               >修改密码</el-dropdown-item
             >
-            <el-dropdown-item class="navigation-text" @click.native="message">
-              <el-badge value="new" class="item" :hidden="showDot"
-                >系统消息</el-badge
-              >
-            </el-dropdown-item>
             <el-dropdown-item class="navigation-text" @click.native="goWelcome"
               >回到首页</el-dropdown-item
             >
@@ -44,31 +39,6 @@
     </el-header>
     <!--        页面主体-->
     <el-container class="main-container">
-      <!--            侧边栏-->
-      <el-aside width="200px">
-        <el-menu
-          router
-          background-color="rgb(239,239,239)"
-          text-color="rgb(43,43,43)"
-          active-text-color="#409EFF"
-        >
-          <el-menu-item index="/adminWelcome">
-            <i class="el-icon-s-home"></i>
-            欢迎页
-          </el-menu-item>
-          <el-submenu index="0">
-            <template slot="title"><i class="el-icon-menu"></i>审核</template>
-            <el-menu-item index="/checkRegister">账户审核</el-menu-item>
-            <el-menu-item index="/adminLoan">借贷审核</el-menu-item>
-          </el-submenu>
-          <el-submenu index="1">
-            <template slot="title"><i class="el-icon-menu"></i>管理</template>
-            <el-menu-item index="/adminCompany">公司管理</el-menu-item>
-            <el-menu-item index="/adminInvestment">产品管理</el-menu-item>
-          </el-submenu>
-        </el-menu>
-      </el-aside>
-      <!--            右侧内容主体-->
       <el-main style="padding-left: 35px">
         <router-view></router-view>
       </el-main>
@@ -81,7 +51,7 @@ export default {
   data() {
     return {
       showDot: false,
-      username: "管理员",
+      username: "尚未登记公司",
       imgUrl: window.sessionStorage.getItem("imgUrl"),
     };
   },
@@ -101,7 +71,7 @@ export default {
     },
     message() {
       this.showDot = true;
-      this.$router.push("/adminMessage");
+      this.$router.push("/createMessage");
     },
     goWelcome() {
       this.$router.push("/touristWelcome");

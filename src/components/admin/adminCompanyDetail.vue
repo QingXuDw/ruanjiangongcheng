@@ -94,7 +94,7 @@ export default {
     },
     async approve() {
       let response = await this.$axios
-        .post(this.$api.adminApproveCompany, {
+        .put(this.$api.adminApproveCompany, {
           Id: this.id,
         })
         .catch((error) => {
@@ -105,7 +105,7 @@ export default {
     },
     async reject() {
       let response = await this.$axios
-        .post(this.$api.adminRejectCompany, {
+        .put(this.$api.adminRejectCompany, {
           Id: this.id,
         })
         .catch((error) => {
@@ -125,22 +125,22 @@ export default {
     },
     async getLoanList() {
       let response = await this.$axios
-        .post(this.$api.adminGetLoanListByCompanyIdNum, {
+        .get(this.$api.adminGetLoanListByCompanyIdNum, {params:{
           page_num: 0,
           page_size: 10,
           companyId: this.id,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;
         });
       this.totalCount = response.data;
       response = await this.$axios
-        .post(this.$api.adminGetLoanListByCompanyId, {
+        .get(this.$api.adminGetLoanListByCompanyId, {params:{
           page_num: 0,
           page_size: this.totalCount,
           companyId: this.id,
-        });
+        }});
       this.loan.loanList = response.data;
       var level_temp;
       this.loan.loanList.forEach((value, index, list) => {

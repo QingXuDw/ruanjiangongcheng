@@ -118,7 +118,7 @@ export default {
         return;
       }
       //发送请求
-      let response = await this.$axios.post(
+      let response = await this.$axios.put(
         this.$api.changePassword,
         {
           prePassword: this.$md5(this.changeForm.password_o),
