@@ -64,7 +64,7 @@ export default {
   computed: {},
   methods: {
     //输出status的文字描述
-    statusToStr(status_int) {
+    loanStatusToStr(status_int) {
       switch (status_int) {
         case 0:
           return "待审核";
@@ -88,7 +88,7 @@ export default {
     },
     async approve(index) {
       let response = await this.$axios
-        .post(this.$api.adminApproveLoan, {
+        .put(this.$api.adminApproveLoan, {
           Id: this.loan.loanList[index].loanId,
         })
         .catch((error) => {
@@ -99,7 +99,7 @@ export default {
     },
     async reject(index) {
       let response = await this.$axios
-        .post(this.$api.adminRejectLoan, {
+        .put(this.$api.adminRejectLoan, {
           Id: this.loan.loanList[index].loanId,
         })
         .catch((error) => {
@@ -110,9 +110,9 @@ export default {
     },
     async showDetailDialog(index) {
       let response = await this.$axios
-        .post(this.$api.adminGetCompanyInfo, {
+        .get(this.$api.adminGetCompanyInfo, {params:{
           Id: this.loan.loanList[index].companyId,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;

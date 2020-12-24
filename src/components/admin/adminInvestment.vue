@@ -18,14 +18,14 @@
         <el-col :span="10">
           <el-input
             clearable
-            @clear="getInvestmentList(this.query)"
+            @clear="getInvestmentList(query)"
             placeholder="请输入内容"
             v-model="query"
           >
             <el-button
               slot="append"
               icon="el-icon-search"
-              @click="getInvestmentList(this.query)"
+              @click="getInvestmentList(query)"
             ></el-button>
           </el-input>
         </el-col>
@@ -115,24 +115,24 @@ export default {
       this.getSponsorList(this.query);
     },
     async getInvestmentList(query) {
-      let response = await this.$axios.post(this.$api.adminGetInvestmentList, {
+      let response = await this.$axios.get(this.$api.adminGetInvestmentList, {params:{
         productName: query,
         page_num: this.pageNumber - 1,
         page_size: this.pageSize,
-      });
+      }});
       this.investmentList = response.data;
-      // response = await this.$axios
-      //   .post(this.$api.admingetInvestmentListNum, {
-      //     productName: query,
-      //     page_num: this.pageNumber - 1,
-      //     page_size: this.pageSize,
-      //   })
-      // this.totalCount = response.data;
+      response = await this.$axios
+        .get(this.$api.adminGetInvestmentListNum, {params:{
+          productName: query,
+          page_num: this.pageNumber - 1,
+          page_size: this.pageSize,
+        }})
+      this.totalCount = response.data;
     },
     async showDetailDialog(index) {
-      let response = await this.$axios.post(this.$api.adminGetInvestmentInfo, {
+      let response = await this.$axios.get(this.$api.adminGetInvestmentInfo, {params:{
         Id: this.investmentList[index].productId,
-      });
+      }});
       this.childProp.investmentInfo = response.data;
       this.childProp.id = this.investmentList[index].productId;
       this.showDetail = true;

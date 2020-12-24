@@ -112,7 +112,14 @@ export default {
       if(loginData.data.companyName == null){
         loginData.data.companyName = "null";
       }
-      this.$print(loginData.data.companyName);
+      if(loginData.data.companyName == null){
+        if(loginData.data.userType == "admin"){
+          loginData.data.companyName = "admin";
+        }
+        else{
+          loginData.data.companyName = "未创建公司"
+        }
+      }
       window.sessionStorage.setItem("name", loginData.data.companyName);
       window.sessionStorage.setItem("imgUrl", "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3531671336,3780835954&fm=26&gp=0.jpg");
       if(loginData.data.userType == "company"){
@@ -122,15 +129,16 @@ export default {
         await this.$router.push({ path: "/adminHome" });
       }
       else{
+        this.$message.info("您还未登记您的公司，请创建公司记录")
         await this.$router.push({ path: "/memberCreate" });
       }
     },
     async loginRequest() {
       let md5 = this.$md5(this.loginForm.password);
-      let response = await this.$axios.post(this.$api.login, {
+      let response = await this.$axios.get(this.$api.login, {params:{
         username: this.loginForm.username,
         password: md5,
-      });
+      }});
       if (response.status != 200){
         this.$message.info(response.msg);
         return null;

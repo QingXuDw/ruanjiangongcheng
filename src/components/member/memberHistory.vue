@@ -18,7 +18,7 @@
         <el-col :span="1" class="center">
           <el-button type="text" disabled>状态：</el-button>
         </el-col>
-        <el-col :span="12" style="margin-left: 10px">
+        <el-col :span="16" style="margin-left: 10px">
           <el-button-group>
             <el-button type="primary" plain @click="getLoanList(-1)"
               >全部</el-button

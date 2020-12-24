@@ -51,8 +51,8 @@
                     </el-submenu>
                     <el-submenu index="2">
                         <template slot="title"><i class="el-icon-s-check"></i>购买</template>
-                        <el-menu-item index="/financialProducts">理财产品</el-menu-item>
-                        <el-menu-item index="/productheld">已购理财</el-menu-item>
+                        <el-menu-item index="/finanacialProducts">理财产品推荐</el-menu-item>
+                        <el-menu-item index="/memberRate">风险分析</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-aside>

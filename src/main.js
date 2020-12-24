@@ -77,6 +77,7 @@ print = async function (object) {
 }
 Vue.prototype.$print = print;
 
+
 //md5加密
 import md5 from 'js-md5'
 Vue.prototype.$md5 = md5

@@ -24,18 +24,22 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="抵押资产:">
-        <el-input
-          v-model="this.detail.asset"
-          readonly
-          style="width: 82%"
-        ></el-input>
+        <el-button
+          type="info"
+          plain
+          @click="jumpToUrl(detail.asset)"
+        >
+          下载证明材料
+        </el-button>
       </el-form-item>
       <el-form-item label="担保信息:">
-        <el-input
-          v-model="this.detail.guarantee"
-          readonly
-          style="width: 82%"
-        ></el-input>
+        <el-button
+          type="info"
+          plain
+          @click="jumpToUrl(detail.guarantee)"
+        >
+          下载证明材料
+        </el-button>
       </el-form-item>
       <el-form-item label="月利率:">
         <el-input
@@ -78,25 +82,35 @@ export default {
   },
   computed: {
     status_name: function () {
-      return this.statusToStr(this.detail.status);
+      return this.loanStatusToStr(this.detail.status);
     },
   },
   methods: {
-    statusToStr(status_int) {
+    //输出status的文字描述
+    loanStatusToStr(status_int) {
       switch (status_int) {
         case 0:
           return "待审核";
           break;
         case 1:
-          return "已通过";
+          return "正在进行";
           break;
         case 2:
+          return "已完成";
+          break;
+        case 3:
           return "未通过";
+          break;
+        case 4:
+          return "已逾期";
           break;
         default:
           return "未定义";
           break;
       }
+    },
+    jumpToUrl(url){
+      window.open(url);
     },
   },
 };

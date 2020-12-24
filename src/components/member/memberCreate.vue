@@ -1,89 +1,93 @@
 <template>
-  <div>
+  <el-card style="margin: 50px; width: 90%">
     <div>
-      <el-row>
-        <el-col :span="24"
-          ><div class="grid-content bg-purole-dark">创建公司</div></el-col
+      <div>
+        <el-row>
+          <el-col :span="24"
+            ><div class="grid-content bg-purole-dark">创建公司</div></el-col
+          >
+        </el-row>
+      </div>
+      <div class="demo-input-suffix">
+        <p>公司地址</p>
+        <el-input placeholder="请输入内容" v-model="form.address"> </el-input>
+        <p>公司资产</p>
+        <quill-editor
+          ref="myTextEditor"
+          v-model="form.asset"
+          :options="editorOption"
+          style="height: 400px"
+        ></quill-editor>
+        <p style="margin-top: 50px">公司名称</p>
+        <el-input placeholder="请输入内容" v-model="form.companyName">
+        </el-input>
+        <p>开户银行</p>
+        <el-input placeholder="请输入内容" v-model="form.depositBank">
+        </el-input>
+        <p>银行卡号</p>
+        <el-input placeholder="请输入内容" v-model="form.depositBankCardNumber">
+        </el-input>
+        <p>公司简介</p>
+        <quill-editor
+          ref="myTextEditor"
+          v-model="form.description"
+          :options="editorOption"
+          style="height: 400px"
+        ></quill-editor>
+        <p style="margin-top: 50px">公司邮箱</p>
+        <el-input placeholder="请输入内容" v-model="form.email"> </el-input>
+        <p>成员数量</p>
+        <el-input
+          type="number"
+          placeholder="请输入内容"
+          v-model="form.memberNumber"
         >
-      </el-row>
+        </el-input>
+        <P>公司电话</P>
+        <el-input placeholder="请输入内容" v-model="form.phone"> </el-input>
+        <p>公司网址</p>
+        <el-input placeholder="请输入内容" v-model="form.website"> </el-input>
+        <p>公司logo</p>
+        <el-input
+          type="text"
+          v-model="fileParam"
+          auto-complete="off"
+          placeholder="在此输入文件参数名"
+        >
+        </el-input>
+        <el-upload
+          ref="upload"
+          :action="fullUrl"
+          :before-remove="fileBeforeRemove"
+          multiple
+          :limit="10"
+          :on-exceed="fileHandleExceed"
+          :file-list="fileList"
+          :name="fileParam"
+          list-type="picture"
+          :auto-upload="false"
+          :http-request="fileUploadRequest"
+        >
+          <el-button class="button" slot="trigger" size="small" type="primary"
+            >选取文件</el-button
+          >
+          <el-button
+            class="button"
+            style="margin-left: 10px"
+            size="small"
+            type="success"
+            @click="fileUpload"
+            >上传到服务器</el-button
+          >
+          <div slot="tip" class="el-upload__tip">
+            只能上传jpg/png文件，大小限制为500kb，总文件数不超过10
+          </div>
+        </el-upload>
+        <el-button type="primary" @click="onSubmit()">提交</el-button>
+        <el-button @click="onCancel()">放弃</el-button>
+      </div>
     </div>
-    <div class="demo-input-suffix">
-      <p>公司地址</p>
-      <el-input placeholder="请输入内容" v-model="form.address"> </el-input>
-      <p>公司资产</p>
-      <quill-editor
-        ref="myTextEditor"
-        v-model="form.asset"
-        :options="editorOption"
-        style="height: 400px"
-      ></quill-editor>
-      <p style="margin-top: 50px">公司名称</p>
-      <el-input placeholder="请输入内容" v-model="form.companyName"> </el-input>
-      <p>开户银行</p>
-      <el-input placeholder="请输入内容" v-model="form.depositBank"> </el-input>
-      <p>银行卡号</p>
-      <el-input placeholder="请输入内容" v-model="form.depositBankCardNumber">
-      </el-input>
-      <p>公司简介</p>
-      <quill-editor
-        ref="myTextEditor"
-        v-model="form.description"
-        :options="editorOption"
-        style="height: 400px"
-      ></quill-editor>
-      <p style="margin-top: 50px">公司邮箱</p>
-      <el-input placeholder="请输入内容" v-model="form.email"> </el-input>
-      <p>成员数量</p>
-      <el-input
-        type="number"
-        placeholder="请输入内容"
-        v-model="form.memberNumber"
-      >
-      </el-input>
-      <P>公司电话</P>
-      <el-input placeholder="请输入内容" v-model="form.phone"> </el-input>
-      <p>公司网址</p>
-      <el-input placeholder="请输入内容" v-model="form.website"> </el-input>
-      <p>公司logo</p>
-      <el-input
-        type="text"
-        v-model="fileParam"
-        auto-complete="off"
-        placeholder="在此输入文件参数名"
-      >
-      </el-input>
-      <el-upload
-        ref="upload"
-        :action="fullUrl"
-        :before-remove="fileBeforeRemove"
-        multiple
-        :limit="10"
-        :on-exceed="fileHandleExceed"
-        :file-list="fileList"
-        :name="fileParam"
-        list-type="picture"
-        :auto-upload="false"
-        :http-request="fileUploadRequest"
-      >
-        <el-button class="button" slot="trigger" size="small" type="primary"
-          >选取文件</el-button
-        >
-        <el-button
-          class="button"
-          style="margin-left: 10px"
-          size="small"
-          type="success"
-          @click="fileUpload"
-          >上传到服务器</el-button
-        >
-        <div slot="tip" class="el-upload__tip">
-          只能上传jpg/png文件，大小限制为500kb，总文件数不超过10
-        </div>
-      </el-upload>
-      <el-button type="primary" @click="onSubmit()">提交</el-button>
-      <el-button @click="onCancel()">放弃</el-button>
-    </div>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -222,5 +226,4 @@ export default {
   border-radius: 4px;
   min-height: 36px;
 }
-
 </style>

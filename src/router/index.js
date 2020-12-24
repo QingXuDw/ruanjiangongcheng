@@ -12,6 +12,7 @@ import register from '../components/tourist/register.vue'
 
 //member相关组件
 import memberHome from '../views/memberHome.vue'
+import createHome from '../views/createHome.vue'
 import memberWelcome from '../components/member/memberWelcome.vue'
 import memberNotice from '../components/member/memberNotice.vue'
 import memberBorrow from '../components/member/memberBorrow.vue'
@@ -20,7 +21,6 @@ import memberHistory from '../components/member/memberHistory.vue'
 import financialProducts from '../components/member/financialProducts.vue'
 import memberInformation from '../components/member/memberInformation.vue'
 import memberCreate from '../components/member/memberCreate.vue'
-import productheld from '../components/member/productheld'
 
 //admin相关组件
 import adminHome from '../views/adminHome.vue'
@@ -49,24 +49,33 @@ const routes = [
       {path: '/login', component: login},
       {path: '/touristApply', component: touristApply},
       {path: '/touristWelcome', component: login},
-      {path: '/register', component: register},
+      {path: '/register', component: register}
     ]
 
   },
   {
     path: '/memberHome',
     component: memberHome,
-    redirect:'/memberWelcome',
+    redirect:'/memberNotice',
     children:[
-      {path: '/memberWelcome', component: memberWelcome},
-      {path: '/memberNotice', component: memberNotice},
+      {path: '/memberWelcome', component: message},
+      {path: '/memberNotice', component: message},
       {path: '/memberBorrow', component: memberBorrow},
       {path: '/memberchange', component: memberchange},
       {path: '/memberHistory', component: memberHistory},
+      {path: '/changePassword', component: changePassword},
       {path: '/financialProducts', component: financialProducts},
       {path: '/memberInformation', component: memberInformation},
+    ]
+  },
+  {
+    path: '/createHome',
+    component: createHome,
+    redirect:'/memberCreate',
+    children:[
       {path: '/memberCreate', component: memberCreate},
-      {path: '/productheld', component: productheld},
+      {path: '/createMessage', component: message},
+      {path: '/changePassword', component: changePassword},
     ]
   },
   {
@@ -78,9 +87,9 @@ const routes = [
       {path: '/adminCompany', component: adminCompany},
       {path: '/adminInvestment', component: adminInvestment},
       {path: '/adminLoan', component: adminLoan},
-      {path: '/message', component: message},
+      {path: '/adminMessage', component: message},
       {path: '/changePassword', component: changePassword},
-      {path: '/adminWelcome', component: adminWelcome},
+      {path: '/adminWelcome', component: message},
     ]
   }
 ]

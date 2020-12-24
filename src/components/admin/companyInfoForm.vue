@@ -147,7 +147,7 @@ export default {
       }
     },
     async rateCompany() {
-      let response = await this.$axios.post(this.$api.adminRateCompany, {
+      let response = await this.$axios.put(this.$api.adminRateCompany, {
         creditRate: this.credit_rate * 20,
         id: this.detail.companyId,
       });

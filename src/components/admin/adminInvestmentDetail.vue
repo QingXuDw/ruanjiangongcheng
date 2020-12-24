@@ -92,7 +92,7 @@ export default {
       this.closeDetailDialog();
     },
     async change() {
-      let response = await this.$axios.post(
+      let response = await this.$axios.put(
         this.$api.adminChangeProduct,
         this.detail_n
       )
