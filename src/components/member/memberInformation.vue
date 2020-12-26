@@ -51,7 +51,9 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="公司描述:">
-        <memberquill-view-pop :content="this.detail.description"></memberquill-view-pop>
+        <memberquill-view-pop
+          :content="this.detail.description"
+        ></memberquill-view-pop>
       </el-form-item>
       <el-form-item label="电邮地址:">
         <el-input
@@ -110,8 +112,10 @@ export default {
   methods: {
     async getmemberInfo() {
       let response = await this.$axios
-        .post(this.$api.memberGetCompanyInfo, {
-          Id: this.id,
+        .get(this.$api.memberGetCompanyInfo, {
+          params: {
+            Id: this.id,
+          },
         })
         .catch((error) => {
           this.$message.error(error.msg);

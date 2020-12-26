@@ -2,13 +2,13 @@
   <div>
     <!-- 面包屑 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/touristWelcome' }"
+      <el-breadcrumb-item :to="{ path: '/memberWelcome' }"
         >首页</el-breadcrumb-item
       >
-      <el-breadcrumb-item :to="{ path: '/adminWelcome' }"
-        >交易</el-breadcrumb-item
+      <el-breadcrumb-item :to="{ path: '/memberWelcome' }"
+        >借款</el-breadcrumb-item
       >
-      <el-breadcrumb-item>请求借款</el-breadcrumb-item>
+      <el-breadcrumb-item>借款记录</el-breadcrumb-item>
     </el-breadcrumb>
     <el-divider></el-divider>
     <!-- 卡片 -->
@@ -33,10 +33,10 @@
               >已完成</el-button
             >
             <el-button type="primary" plain @click="getLoanList(3)"
-              >被拒绝</el-button
+              >未通过</el-button
             >
             <el-button type="primary" plain @click="getLoanList(4)"
-              >逾期未还</el-button
+              >已逾期</el-button
             >
           </el-button-group>
         </el-col>
@@ -45,15 +45,22 @@
       <el-table :data="loanList">
         <el-table-column type="index"></el-table-column>
         <el-table-column label="金额" prop="amount"></el-table-column>
-        <el-table-column label="请求时间" prop="apply_time"></el-table-column>
-        <el-table-column label="接受时间" prop="approve_time"></el-table-column>
+        <el-table-column label="申请时间" prop="apply_time"></el-table-column>
+        <el-table-column label="同意时间" prop="approve_time"></el-table-column>
         <el-table-column label="抵押资产" prop="asset"></el-table-column>
         <el-table-column label="担保人信息" prop="guarantee"></el-table-column>
         <el-table-column label="借款编号" prop="loan_id"></el-table-column>
-        <el-table-column label="利率" prop="rate"></el-table-column>
+        <el-table-column label="借款利率" prop="rate"></el-table-column>
         <el-table-column label="归还期限" prop="repay_time"></el-table-column>
-        <el-table-column label="借款建议" prop="suggestion"></el-table-column>
         <el-table-column label="借款状态" prop="status"></el-table-column>
+        <el-table-column label="借款建议" prop="suggestion"></el-table-column>
+        <el-table-column label="详情">
+          <template slot-scope="scope">
+            <el-button type="primary" @click="showDetailDialog(scope.$index)">
+              查看详情
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <br />
       <!-- 分页区域 -->
@@ -68,11 +75,14 @@
       >
       </el-pagination>
     </el-card>
+    <company-loan-detail v-bind="childProp" ref="child"></company-loan-detail>
   </div>
 </template>
 
 <script>
+import companyLoanDetail from "./companyLoanDetail.vue";
 export default {
+  components: { companyLoanDetail },
   data() {
     return {
       status: 0,
@@ -85,17 +95,11 @@ export default {
       //总条数,用于分页的显示
       totalCount: 0,
       childProp: {
-        amount: 0,
-        apply_time: "",
-        approve_time:"",
-        asset:"",
-        guarantee:"",
-        load_id:0,
-        rate:0,
-        repay_time:"",
-        suggestion:"",
-        status:0,
+        id: "",
+        loanInfo: {},
       },
+      rateClasses: ["el-icon-success", "el-icon-warning", "el-icon-error"],
+      rateColors: ["#00FF7F", "#FFA500", "#DC143C"],
     };
   },
 
@@ -115,7 +119,8 @@ export default {
       this.getLoanList(this.status);
     },
     //输出status的文字描述
-    statusToStr(status_int) {
+    //输出status的文字描述
+    loanStatusToStr(status_int) {
       switch (status_int) {
         case 0:
           return "待审核";
@@ -127,24 +132,24 @@ export default {
           return "已完成";
           break;
         case 3:
-          return "被拒绝";
+          return "未通过";
           break;
         case 4:
-          return "逾期未还";
+          return "已逾期";
           break;
         default:
-          return "未定义"
+          return "未定义";
           break;
       }
     },
     async getLoanList(status) {
       this.status = status;
       let response = await this.$axios
-        .post(this.$api.companyGetHistoryByStatus, {
+        .get(this.$api.companyGetLoanListByStatus, {params:{
           page_num: this.pageNumber - 1,
           page_size: this.pageSize,
           status: status,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;
@@ -159,16 +164,15 @@ export default {
           level_temp = 0;
         }
         list[index].riskLevel = level_temp;
-        list[index].status_name = this.statusToStr(value.status);
+        list[index].status_name = this.loanStatusToStr(value.status);
         list[index].rate = `${value.rate / 100}%`;
-        list[index].showRejectPop = false;
       });
       response = await this.$axios
-        .post(this.$api.companyGetHistoryByStatusNum, {
+        .get(this.$api.companyGetLoanListByStatusNum, {params:{
           page_num: this.pageNumber - 1,
           page_size: this.pageSize,
           status: status,
-        })
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;
@@ -181,9 +185,9 @@ export default {
     },
     async showDetailDialog(index) {
       let response = await this.$axios
-        .post(this.$api.companyGetLoanInfo, {
-          Id: this.loanList[index].loanId,
-        })
+        .get(this.$api.companyGetLoanInfo, {params:{
+          Id: this.loanList[index].loan_id,
+        }})
         .catch((error) => {
           this.$message.error(error.msg);
           return;
@@ -191,9 +195,6 @@ export default {
       this.childProp.loanInfo = response.data;
       this.childProp.id = this.loanList[index].loanId;
       this.$refs["child"].showDetailDialog();
-    },
-    showRejectPop(index) {
-      this.loanList[index].rejectPopVisible = !this.loanList[index].rejectPopVisible;
     },
   },
 };

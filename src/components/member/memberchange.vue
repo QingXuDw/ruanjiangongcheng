@@ -58,7 +58,7 @@ export default {
     async onSubmit() {
       this.$message("提交成功，等待审核!");
       let response = await this.$axios
-        .post(this.$api.companyChangeCompanyInfo, {
+        .put(this.$api.companyChangeCompanyInfo, {
           address: this.form.address,
           companyName: this.form.companyName,
           asset: this.form.asset,

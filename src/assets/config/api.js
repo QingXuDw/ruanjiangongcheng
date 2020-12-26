@@ -9,12 +9,20 @@ module.exports = {
 
     //member related
     memberGetCompanyInfo: RootUrl + "company/companyInfo",
-    companyGetHistoryByStatus: RootUrl + "company/loanListByStatus",
+    companyGetLoanListByStatus: RootUrl + "company/loanListByStatus",
     companyGetLoanInfo: RootUrl + "company/loanById",
-    companyCreatecompany: RootUrl + "company/company",
-    companyGetHistoryByStatusNum: RootUrl + "company/loanListByStatusNum",
+    companyCreateCompany: RootUrl + "company/company",
+    companyGetLoanListByStatusNum: RootUrl + "company/loanListByStatusNum",
     companycreateLoan: RootUrl + "company/loan",
     companyChangeCompanyInfo: RootUrl + "company/companyInfo",
+    companyBuyProduct: RootUrl + "company/productBuy",
+    companyGetProductList: RootUrl + "company/productList",
+    companyGetProductListNum: RootUrl + "company/productListNum",
+    companyGetProductInfo: RootUrl + "company/productById",
+    companyGetBuyProductList: RootUrl + "company/buyProductList",
+    companyGetBuyProductNum: RootUrl + "company/buyProductListNum",
+    companyTakeBackProfit: RootUrl + "company/profitRecovery",
+    companyRepayLoan: RootUrl + "company/loanRepayment",
     
 
     

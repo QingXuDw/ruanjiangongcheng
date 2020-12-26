@@ -21,6 +21,7 @@ import memberHistory from '../components/member/memberHistory.vue'
 import financialProducts from '../components/member/financialProducts.vue'
 import memberInformation from '../components/member/memberInformation.vue'
 import memberCreate from '../components/member/memberCreate.vue'
+import productheld from '../components/member/productheld.vue'
 
 //admin相关组件
 import adminHome from '../views/adminHome.vue'
@@ -58,7 +59,7 @@ const routes = [
     component: memberHome,
     redirect:'/memberNotice',
     children:[
-      {path: '/memberWelcome', component: message},
+      {path: '/memberWelcome', component: memberWelcome},
       {path: '/memberNotice', component: message},
       {path: '/memberBorrow', component: memberBorrow},
       {path: '/memberchange', component: memberchange},
@@ -66,6 +67,7 @@ const routes = [
       {path: '/changePassword', component: changePassword},
       {path: '/financialProducts', component: financialProducts},
       {path: '/memberInformation', component: memberInformation},
+      {path: '/productheld', component: productheld},
     ]
   },
   {
@@ -91,7 +93,7 @@ const routes = [
       {path: '/changePassword', component: changePassword},
       {path: '/adminWelcome', component: message},
     ]
-  }
+  },
 ]
 
 const router = new VueRouter({

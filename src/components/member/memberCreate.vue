@@ -105,14 +105,14 @@ export default {
         memberNumber: 0,
         phone: "",
         website: "",
-        fileList: [
+      },
+       fileList: [
           // {
           //   name: "",
           //   url: ""
           // }
         ],
         fileParam: "",
-      },
       editorOption: {
         placeholder: "编辑内容",
       },
