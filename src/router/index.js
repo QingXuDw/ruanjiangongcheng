@@ -22,6 +22,7 @@ import financialProducts from '../components/member/financialProducts.vue'
 import memberInformation from '../components/member/memberInformation.vue'
 import memberCreate from '../components/member/memberCreate.vue'
 import productheld from '../components/member/productheld.vue'
+import companyLogo from '../components/member/companyLogo'
 
 //admin相关组件
 import adminHome from '../views/adminHome.vue'
@@ -68,6 +69,7 @@ const routes = [
       {path: '/financialProducts', component: financialProducts},
       {path: '/memberInformation', component: memberInformation},
       {path: '/productheld', component: productheld},
+      {path: '/companyLogo', component: companyLogo},
     ]
   },
   {
@@ -78,6 +80,7 @@ const routes = [
       {path: '/memberCreate', component: memberCreate},
       {path: '/createMessage', component: message},
       {path: '/changePassword', component: changePassword},
+      {path: '/companyLogo', component: companyLogo},
     ]
   },
   {

@@ -94,6 +94,6 @@ export default {
   min-height: 36px;
 }
 .demo-input-suffix {
-  background: #cfb53b;
+  background: #d3dce6;
 }
 </style>

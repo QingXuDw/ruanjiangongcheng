@@ -27,6 +27,10 @@
               >回到首页</el-dropdown-item
             >
             <el-dropdown-item
+            class="navigation-text"
+            @click.native="companyInformation"
+            >公司信息</el-dropdown-item>
+            <el-dropdown-item
               class="navigation-text"
               id="exit-div"
               divided
@@ -75,6 +79,9 @@ export default {
     },
     goWelcome() {
       this.$router.push("/touristWelcome");
+    },
+    companyInformation(){
+      this.$router.push("/memberInformation");
     },
   },
 };

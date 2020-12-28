@@ -21,8 +21,7 @@
       </el-form-item>
       <el-form-item label="信用等级:">
         <el-rate
-          v-model="this.detail.credit_rate"
-          :disabled="this.disableRate"
+          v-model="detail.credit_rate"
           show-score
           text-color="#ff9900"
           score-template="{value}"
@@ -51,9 +50,9 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="公司描述:">
-        <memberquill-view-pop
+        <quill-view-pop
           :content="this.detail.description"
-        ></memberquill-view-pop>
+        ></quill-view-pop>
       </el-form-item>
       <el-form-item label="电邮地址:">
         <el-input
@@ -98,25 +97,21 @@
   </div>
 </template>
 <script>
-import quillViewPop from "./memberquillViewPop.vue";
+import quillViewPop from"../admin/quillViewPop.vue"
 export default {
-  components: { quillViewPop },
+  components:{quillViewPop},
   data() {
-    return {};
-  },
-  props: {
-    id: "",
-    detail: {},
+    return {
+        detail:{},
+    };
   },
   create() {},
+  mounted(){this.getmemberInfo()},
   methods: {
     async getmemberInfo() {
       let response = await this.$axios
-        .get(this.$api.memberGetCompanyInfo, {
-          params: {
-            Id: this.id,
-          },
-        })
+        .get(this.$api.memberGetCompanyInfo
+        )
         .catch((error) => {
           this.$message.error(error.msg);
           return;
