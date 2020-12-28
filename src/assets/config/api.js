@@ -26,6 +26,7 @@ module.exports = {
     companyUploadGuarantee: RootUrl + "company/guarantee",
     companyUploadAsset: RootUrl + "company/asset",
     companyUploadLogo: RootUrl + "company/uploadLogo",
+    companyGetInfo: RootUrl + "company/welcomeInfo",
     
 
     

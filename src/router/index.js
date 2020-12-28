@@ -58,7 +58,7 @@ const routes = [
   {
     path: '/memberHome',
     component: memberHome,
-    redirect:'/memberNotice',
+    redirect:'/memberWelcome',
     children:[
       {path: '/memberWelcome', component: memberWelcome},
       {path: '/memberNotice', component: message},
