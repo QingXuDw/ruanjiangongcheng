@@ -89,7 +89,7 @@
                 if (loginTime!=null && new Date().getTime() - loginTime > 7200000)//2*60*60*1000 两小时
                 {
                     this.$message.success("太久未登录,强制退出!");
-                    this.logout();
+                    this.logOut();
                 }
             },
             //退出按钮

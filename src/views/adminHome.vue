@@ -91,6 +91,14 @@ export default {
     });
   },
   methods: {
+    CurentTime() {
+      let loginTime = window.sessionStorage.getItem("loginTime");
+      if (loginTime != null && new Date().getTime() - loginTime > 7200000) {
+        //2*60*60*1000 两小时
+        this.$message.success("太久未登录,强制退出!");
+        this.logOut();
+      }
+    },
     //退出按钮
     logOut() {
       window.sessionStorage.clear();

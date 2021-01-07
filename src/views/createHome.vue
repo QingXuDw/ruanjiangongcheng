@@ -27,9 +27,10 @@
               >回到首页</el-dropdown-item
             >
             <el-dropdown-item
-            class="navigation-text"
-            @click.native="companyInformation"
-            >公司信息</el-dropdown-item>
+              class="navigation-text"
+              @click.native="companyInformation"
+              >公司信息</el-dropdown-item
+            >
             <el-dropdown-item
               class="navigation-text"
               id="exit-div"
@@ -66,6 +67,14 @@ export default {
   },
   methods: {
     //退出按钮
+    CurentTime() {
+      let loginTime = window.sessionStorage.getItem("loginTime");
+      if (loginTime != null && new Date().getTime() - loginTime > 7200000) {
+        //2*60*60*1000 两小时
+        this.$message.success("太久未登录,强制退出!");
+        this.logOut();
+      }
+    },
     logOut() {
       window.sessionStorage.clear();
       this.$router.push("/touristWelcome");
@@ -80,7 +89,7 @@ export default {
     goWelcome() {
       this.$router.push("/touristWelcome");
     },
-    companyInformation(){
+    companyInformation() {
       this.$router.push("/memberInformation");
     },
   },
